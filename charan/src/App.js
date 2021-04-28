@@ -20,19 +20,14 @@ function App() {
             <li>&emsp;
               <Link to="/">Home</Link>
             &emsp;
-              <Link to="/about">About</Link>
-              &emsp;
-              <Link to="/contact">Contact</Link>
+              <Link to="/game">Game</Link>
             </li>
           </ul>
         </nav>
 
         <Switch>
-          <Route path="/about">
+          <Route path="/game">
             <About />
-          </Route>
-          <Route path="/contact">
-            <Contact />
           </Route>
           <Route path="/">
             <Home />
@@ -79,13 +74,15 @@ class About extends React.Component {
   }
   render() {
     return (
-      <div>
-        <h1>Player1: </h1>
-        <input type="text" placeholder="Player1 Name" onChange={this.readp1} value={this.state.player1}></input><br />
-        <input type="color" onChange={this.readcolorp1} value={this.state.p1Color}></input><br />
-        <h1>Player2: </h1>
-        <input type="text" placeholder="Player2 Name" onChange={this.readp2} value={this.state.player2}></input><br />
-        <input type="color" onChange={this.readcolorp2} value={this.state.p2Color}></input><br />
+      <div style={{padding: 15}}>
+        <h2>Player1:    
+        <input type="text" placeholder="Player1 Name" onChange={this.readp1} value={this.state.player1}></input> &emsp; &emsp; 
+        Player1 Colour: 
+        <input type="color" onChange={this.readcolorp1} value={this.state.p1Color}></input></h2>
+        <h2>Player2: 
+        <input type="text" placeholder="Player2 Name" onChange={this.readp2} value={this.state.player2}></input> &emsp; &emsp; 
+        Player2 Colour: 
+        <input type="color" onChange={this.readcolorp2} value={this.state.p2Color}></input></h2>
         <Router>
           <Link to="/board">Start Game</Link>
           <Switch>
@@ -98,44 +95,53 @@ class About extends React.Component {
     )
   }
   readp1 = (event) => {
-
+    localStorage.setItem("P1", event.target.value);
     this.setState({ player1: event.target.value });
   };
   readp2 = (event) => {
-
+    localStorage.setItem("P2", event.target.value);
     this.setState({ player2: event.target.value });
   };
   readcolorp1 = (event) => {
+    localStorage.setItem("P1color", event.target.value);
     this.setState({ p1Color: event.target.value });
   };
   readcolorp2 = (event) => {
+    localStorage.setItem("P2color", event.target.value);
     this.setState({ p2Color: event.target.value });
   };
 }
-// export default About;
 
-class Contact extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Contact...</h1>
-      </div>
-    )
-  }
-}
 // export default Contact;
 class Board extends React.Component {
   constructor() {
     super();
     this.state = {
-      // color : "pink",
       turn: true,
-      background: "red"
+      P1: "",
+      P2: "",
+      color1: "",
+      color2: ""
     }
+  }
+
+  componentDidMount() {
+    var play1 = localStorage.getItem("P1");
+    var play2 = localStorage.getItem("P2");
+    var col1 = localStorage.getItem("P1color");
+    var col2 = localStorage.getItem("P2color");
+    this.setState({
+      P1: play1,
+      P2: play2,
+      color1: col1,
+      color2: col2
+    });
   }
   render() {
     return (
       <div>
+        <h2>Player1: {this.state.P1} &emsp;Player2: {this.state.P2}</h2>
+        <h2 id="disp">{this.state.P1}'s turn </h2>
         <table border="1">
           <tr height="50">
             <td width="50" id="0" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
@@ -196,30 +202,92 @@ class Board extends React.Component {
     );
   }
   col1 = (event) => {
-    const x = Number(event.target.id);
-    // console.log(event.target.id);
-    const col = x % 7;
-    // alert(col);
-    for (var i = 41; i >= 0; i--) {
-      var d = String(i);
-      if (i % 7 == col) {
-        // alert(i);
-        if (this.state.turn) {
-          if (event.target.style.backgroundColor == "white") {
-            event.target.style.backgroundColor = "red";
-            this.setState({ turn: !this.state.turn });
-            break;
+    // alert(this.state.color1);
+    var ans = this.check();
+    if (ans == 1) {
+      ReactDOM.render(<Winner name={this.state.P1} />, document.getElementById("root"));
+    }
+    else if (ans == 2) {
+      // alert();
+      ReactDOM.render(<Winner name={this.state.P2} />, document.getElementById("root"));
+    }
+    else {
+      const x = Number(event.target.id);
+      // console.log(event.target.id);
+      const col = x % 7;
+      // alert(col);
+      for (var i = 41; i >= 0; i--) {
+        var d = String(i);
+        if (i % 7 == col && document.getElementById(d).style.backgroundColor == "white") {
+          if (this.state.turn) {
+            if (event.target.style.backgroundColor == "white") {
+              document.getElementById(d).style.backgroundColor = this.state.color1;
+              this.setState({ turn: !this.state.turn });
+              document.getElementById("disp").innerHTML = this.state.P2 +"'s turn";
+              break;
+            }
           }
-        }
-        else {
-          if (event.target.style.backgroundColor == "white") {
-            event.target.style.backgroundColor = "blue";
-            this.setState({ turn: !this.state.turn });
-            break;
+          else {
+            if (event.target.style.backgroundColor == "white") {
+              document.getElementById(d).style.backgroundColor = this.state.color2;
+              this.setState({ turn: !this.state.turn });
+              document.getElementById("disp").innerHTML = this.state.P1 +"'s turn";
+              break;
+            }
           }
         }
       }
     }
+  }
 
+  check() {
+    var countblue = 0;
+    var countred = 0;
+    for (var j = 0; j < 41; j = j + 7) {
+      for (var i = 0; i < 7; i++) {
+        if (this.RGBToHex(document.getElementById(String(j + i)).style.backgroundColor) == this.state.color2) {
+          countblue++;
+          countred = 0;
+        }
+        else if (this.RGBToHex(document.getElementById(String(j + i)).style.backgroundColor) == this.state.color1) {
+          countred++;
+          countblue = 0;
+        }
+        else {
+          countblue = 0;
+          countred = 0;
+        }
+        if (countred >= 4) {
+          return 1;
+        }
+        if (countblue >= 4) {
+          return 2;
+        }
+      }
+    }
+    return 0;
+  }
+
+  RGBToHex(rgb) {
+    let sep = rgb.indexOf(",") > -1 ? "," : " ";
+    rgb = rgb.substr(4).split(")")[0].split(sep);
+    let r = (+rgb[0]).toString(16),
+      g = (+rgb[1]).toString(16),
+      b = (+rgb[2]).toString(16);
+    if (r.length == 1)
+      r = "0" + r;
+    if (g.length == 1)
+      g = "0" + g;
+    if (b.length == 1)
+      b = "0" + b;
+    return "#" + r + g + b;
+  }
+}
+
+class Winner extends React.Component {
+  render() {
+    return (
+      <h1>Winner is {this.props.name}</h1>
+    );
   }
 }
