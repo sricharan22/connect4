@@ -18,9 +18,9 @@ function App() {
         <nav>
           <ul style={{ listStyleType: "none", padding: 0 }}>
             <li>&emsp;
-              <Link to="/">Home</Link>
+            <button type="submit" class="btn btn-warning mt-5"><Link to="/">Home</Link></button>
             &emsp;
-              <Link to="/game">Game</Link>
+            <button type="submit" class="btn btn-warning mt-5"><Link to="/game">Game</Link></button>
             </li>
           </ul>
         </nav>
@@ -74,17 +74,17 @@ class About extends React.Component {
   }
   render() {
     return (
-      <div style={{padding: 15}}>
-        <h2>Player1:    
-        <input type="text" placeholder="Player1 Name" onChange={this.readp1} value={this.state.player1}></input> &emsp; &emsp; 
-        Player1 Colour: 
+      <div style={{ padding: 15 }}>
+        <h2>Player1:
+        <input type="text" placeholder="Player1 Name" onChange={this.readp1} value={this.state.player1}></input> &emsp; &emsp;
+        Player1 Colour:
         <input type="color" onChange={this.readcolorp1} value={this.state.p1Color}></input></h2>
-        <h2>Player2: 
-        <input type="text" placeholder="Player2 Name" onChange={this.readp2} value={this.state.player2}></input> &emsp; &emsp; 
-        Player2 Colour: 
+        <h2>Player2:
+        <input type="text" placeholder="Player2 Name" onChange={this.readp2} value={this.state.player2}></input> &emsp; &emsp;
+        Player2 Colour:
         <input type="color" onChange={this.readcolorp2} value={this.state.p2Color}></input></h2>
         <Router>
-          <Link to="/board">Start Game</Link>
+        <button type="submit" class="btn btn-warning mt-5"><Link to="/board">Start Game</Link></button>
           <Switch>
             <Route path="/board">
               <Board />
@@ -117,7 +117,10 @@ class Board extends React.Component {
   constructor() {
     super();
     this.state = {
+      secs:0,
+      count:0,
       turn: true,
+      time:0,
       P1: "",
       P2: "",
       color1: "",
@@ -136,10 +139,12 @@ class Board extends React.Component {
       color1: col1,
       color2: col2
     });
+    this.start();
   }
   render() {
     return (
       <div>
+        <label id="minutes">00</label>:<label id="seconds">00</label>
         <h2>Player1: {this.state.P1} &emsp;Player2: {this.state.P2}</h2>
         <h2 id="disp">{this.state.P1}'s turn </h2>
         <table border="1">
@@ -201,46 +206,67 @@ class Board extends React.Component {
       </div>
     );
   }
+
+  start(){
+    this.state.time = setInterval(() => {
+      // alert(typeof(time));
+      var totalSeconds=this.state.secs;
+      this.setState({
+        secs:totalSeconds+1
+      });
+      var minutesLabel = document.getElementById("minutes");
+      var secondsLabel = document.getElementById("seconds");
+      secondsLabel.innerHTML = this.pad(this.state.secs % 60);
+      minutesLabel.innerHTML = this.pad(parseInt(this.state.secs / 60));
+    }, 1000)
+    return ()=> {
+      // clearInterval(time);
+    };
+  }
+
   col1 = (event) => {
     // alert(this.state.color1);
-    var ans = this.check();
+    var ans = this.checkrow();
     if (ans == 1) {
-      ReactDOM.render(<Winner name={this.state.P1} />, document.getElementById("root"));
+      clearInterval(this.state.time);
+      ReactDOM.render(<Winner name={this.state.P1} time={this.state.secs} moves={this.state.count} />, document.getElementById("root"));
     }
     else if (ans == 2) {
       // alert();
-      ReactDOM.render(<Winner name={this.state.P2} />, document.getElementById("root"));
+      clearInterval(this.state.time);
+      ReactDOM.render(<Winner name={this.state.P2} time={this.state.secs} moves={this.state.count} />, document.getElementById("root"));
     }
     else {
-      const x = Number(event.target.id);
-      // console.log(event.target.id);
-      const col = x % 7;
-      // alert(col);
-      for (var i = 41; i >= 0; i--) {
-        var d = String(i);
-        if (i % 7 == col && document.getElementById(d).style.backgroundColor == "white") {
-          if (this.state.turn) {
-            if (event.target.style.backgroundColor == "white") {
-              document.getElementById(d).style.backgroundColor = this.state.color1;
-              this.setState({ turn: !this.state.turn });
-              document.getElementById("disp").innerHTML = this.state.P2 +"'s turn";
-              break;
+  
+        const x = Number(event.target.id);
+        // console.log(event.target.id);
+        const col = x % 7;
+        // alert(col);
+        for (var i = 41; i >= 0; i--) {
+          var d = String(i);
+          if (i % 7 == col && document.getElementById(d).style.backgroundColor == "white") {
+            if (this.state.turn) {
+              if (event.target.style.backgroundColor == "white") {
+                document.getElementById(d).style.backgroundColor = this.state.color1;
+                this.setState({ turn: !this.state.turn, count:this.state.count+1 });
+                document.getElementById("disp").innerHTML = this.state.P2 + "'s turn";
+                break;
+              }
+            }
+            else {
+              if (event.target.style.backgroundColor == "white") {
+                document.getElementById(d).style.backgroundColor = this.state.color2;
+                this.setState({ turn: !this.state.turn ,count:this.state.count+1 });
+                document.getElementById("disp").innerHTML = this.state.P1 + "'s turn";
+                break;
+              }
             }
           }
-          else {
-            if (event.target.style.backgroundColor == "white") {
-              document.getElementById(d).style.backgroundColor = this.state.color2;
-              this.setState({ turn: !this.state.turn });
-              document.getElementById("disp").innerHTML = this.state.P1 +"'s turn";
-              break;
-            }
-          }
-        }
       }
     }
   }
 
-  check() {
+  checkrow() {
     var countblue = 0;
     var countred = 0;
     for (var j = 0; j < 41; j = j + 7) {
@@ -265,6 +291,98 @@ class Board extends React.Component {
         }
       }
     }
+    return this.checkcol();
+  }
+
+  checkcol() {
+    var countblue = 0;
+    var countred = 0;
+    for (var j = 0; j < 7; j ++) {
+      for (var i = 0; i < 42; i = i+7) {
+        if (this.RGBToHex(document.getElementById(String(j + i)).style.backgroundColor) == this.state.color2) {
+          countblue++;
+          countred = 0;
+        }
+        else if (this.RGBToHex(document.getElementById(String(j + i)).style.backgroundColor) == this.state.color1) {
+          countred++;
+          countblue = 0;
+        }
+        else {
+          countblue = 0;
+          countred = 0;
+        }
+        if (countred >= 4) {
+          return 1;
+        }
+        if (countblue >= 4) {
+          return 2;
+        }
+      }
+    }
+    return this.checkdiag();
+  }
+
+  checkdiag(){
+    for(var i=0;i<21;i++){
+      if(i<3 || (i>6 && i<10) || (i>13 && i<17)){
+        if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+8)).style.backgroundColor)) && 
+        (this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+16)).style.backgroundColor)) &&
+        (this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+24)).style.backgroundColor))){
+          if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor))== this.state.color1){
+            return 1;
+          }
+          else if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor))== this.state.color2){
+            return 2;
+          }
+        }
+      }
+      else if((i>3 && i<7) || (i>10 && i<14) || (i>17 && i<21)){
+        if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+6)).style.backgroundColor)) && 
+        (this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+12)).style.backgroundColor)) &&
+        (this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+18)).style.backgroundColor))){
+          if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor))== this.state.color1){
+            return 1;
+          }
+          else if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor))== this.state.color2){
+            return 2;
+          }
+        }
+      }
+      else{
+        if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+6)).style.backgroundColor)) && 
+        (this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+12)).style.backgroundColor)) &&
+        (this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+18)).style.backgroundColor))){
+          if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor))== this.state.color1){
+            return 1;
+          }
+          else if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor))== this.state.color2){
+            return 2;
+          }
+        }
+        else if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+8)).style.backgroundColor)) && 
+        (this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+16)).style.backgroundColor)) &&
+        (this.RGBToHex(document.getElementById(String(i)).style.backgroundColor) == 
+        this.RGBToHex(document.getElementById(String(i+24)).style.backgroundColor))){
+          if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor))== this.state.color1){
+            return 1;
+          }
+          else if((this.RGBToHex(document.getElementById(String(i)).style.backgroundColor))== this.state.color2){
+            return 2;
+          }
+        }
+      }
+    }
     return 0;
   }
 
@@ -282,12 +400,50 @@ class Board extends React.Component {
       b = "0" + b;
     return "#" + r + g + b;
   }
+  pad(val) {
+    var valString = val + "";
+    if (valString.length < 2) {
+      return "0" + valString;
+    } else {
+      return valString;
+    }
+  }
 }
 
-class Winner extends React.Component {
-  render() {
-    return (
-      <h1>Winner is {this.props.name}</h1>
+class Winner extends React.Component{
+  constructor(){
+    super();
+    this.state={
+      move:0,
+      min:"",
+      sec:""
+    }
+  }
+
+  componentDidMount(){
+    var count=this.props.moves;
+    count= Math.ceil((count/2));
+    var secs=this.props.time;
+    this.setState({
+      sec:this.pad(secs % 60),
+      min:this.pad(parseInt(secs / 60)),
+      move:count
+    })
+  }
+
+  pad(val) {
+    var valString = val + "";
+    if (valString.length < 2) {
+      return "0" + valString;
+    } else {
+      return valString;
+    }
+  }
+
+  render(){
+    return(
+      <h1>Winner is {this.props.name} <br /> Won in {this.state.min } : {this.state.sec} secs <br /> Total moves Made: {this.state.move}</h1>
     );
+
   }
 }
