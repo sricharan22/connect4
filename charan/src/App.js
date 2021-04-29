@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,7 +15,7 @@ function App() {
   return (
 
     <Router>
-      <div>
+      <div class="ml-5">
         <nav>
           <ul style={{ listStyleType: "none", padding: 0 }}>
             <li>&emsp;
@@ -43,7 +44,9 @@ export default App;
 class Home extends React.Component {
   render() {
     return (
-      <div>
+      <div class="ml-3">
+        <center><h1><b>CONNECT</b></h1>
+        <h1><b>FOUR</b></h1></center>
         <h1>Rules:</h1>
         <ul>
           <li>
@@ -56,6 +59,7 @@ class Home extends React.Component {
             If a player gets 4 boxes in a row or column or diagonally, they win
              </li>
         </ul>
+        
       </div>
     )
   }
@@ -74,15 +78,15 @@ class About extends React.Component {
   }
   render() {
     return (
-      <div style={{ padding: 15 }}>
-        <h2>Player1:
-        <input type="text" placeholder="Player1 Name" onChange={this.readp1} value={this.state.player1}></input> &emsp; &emsp;
-        Player1 Colour:
-        <input type="color" onChange={this.readcolorp1} value={this.state.p1Color}></input></h2>
-        <h2>Player2:
-        <input type="text" placeholder="Player2 Name" onChange={this.readp2} value={this.state.player2}></input> &emsp; &emsp;
-        Player2 Colour:
-        <input type="color" onChange={this.readcolorp2} value={this.state.p2Color}></input></h2>
+      <div class="ml-3">
+        <h2>Player1: &emsp;
+        <input type="text" class="form-control-lg" placeholder="Player1 Name" onChange={this.readp1} value={this.state.player1}></input> &emsp; &emsp;
+        Player1 Colour: &emsp;
+        <input type="color" class="form-control-sm" onChange={this.readcolorp1} value={this.state.p1Color}></input></h2>
+        <h2>Player2: &emsp;
+        <input type="text" class="form-control-lg" placeholder="Player2 Name" onChange={this.readp2} value={this.state.player2}></input> &emsp; &emsp;
+        Player2 Colour: &emsp;
+        <input type="color" class="form-control-sm" onChange={this.readcolorp2} value={this.state.p2Color}></input></h2>
         <Router>
         <button type="submit" class="btn btn-warning mt-5"><Link to="/board">Start Game</Link></button>
           <Switch>
@@ -144,10 +148,10 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        <label id="minutes">00</label>:<label id="seconds">00</label>
-        <h2>Player1: {this.state.P1} &emsp;Player2: {this.state.P2}</h2>
-        <h2 id="disp">{this.state.P1}'s turn </h2>
-        <table border="1">
+        <center><h1 class="text-success"><label id="minutes">00</label>:<label id="seconds">00</label></h1></center>
+        <center><h2>Player1: {this.state.P1} &emsp;Player2: {this.state.P2}</h2></center>
+        <center><h2 class="text-danger bg-primary" id="disp">{this.state.P1}'s turn </h2></center>
+        <center><table border="1">
           <tr height="50">
             <td width="50" id="0" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
             <td width="50" id="1" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
@@ -203,6 +207,7 @@ class Board extends React.Component {
             <td width="50" id="41" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
           </tr>
         </table>
+        </center>
       </div>
     );
   }
@@ -229,12 +234,12 @@ class Board extends React.Component {
     var ans = this.checkrow();
     if (ans == 1) {
       clearInterval(this.state.time);
-      ReactDOM.render(<Winner name={this.state.P1} time={this.state.secs} moves={this.state.count} />, document.getElementById("root"));
+      ReactDOM.render(<Winner name={this.state.P1} time={this.state.secs} moves={this.state.count} runner={this.state.P2} />, document.getElementById("root"));
     }
     else if (ans == 2) {
       // alert();
       clearInterval(this.state.time);
-      ReactDOM.render(<Winner name={this.state.P2} time={this.state.secs} moves={this.state.count} />, document.getElementById("root"));
+      ReactDOM.render(<Winner name={this.state.P2} time={this.state.secs} moves={this.state.count} runner={this.state.P1} />, document.getElementById("root"));
     }
     else {
   
@@ -249,7 +254,7 @@ class Board extends React.Component {
               if (event.target.style.backgroundColor == "white") {
                 document.getElementById(d).style.backgroundColor = this.state.color1;
                 this.setState({ turn: !this.state.turn, count:this.state.count+1 });
-                document.getElementById("disp").innerHTML = this.state.P2 + "'s turn";
+                document.getElementById("disp").innerHTML = "<center>" + this.state.P2 + "'s turn</center>";
                 break;
               }
             }
@@ -257,7 +262,7 @@ class Board extends React.Component {
               if (event.target.style.backgroundColor == "white") {
                 document.getElementById(d).style.backgroundColor = this.state.color2;
                 this.setState({ turn: !this.state.turn ,count:this.state.count+1 });
-                document.getElementById("disp").innerHTML = this.state.P1 + "'s turn";
+                document.getElementById("disp").innerHTML = "<center>" + this.state.P1 + "'s turn</center>";
                 break;
               }
             }
@@ -442,8 +447,22 @@ class Winner extends React.Component{
 
   render(){
     return(
-      <h1>Winner is {this.props.name} <br /> Won in {this.state.min } : {this.state.sec} secs <br /> Total moves Made: {this.state.move}</h1>
+      <div>
+      <center>
+      <h1 class="text-danger"><b><u>GAME OVER</u></b></h1>
+      <h1>CONGRATULATIONS..!</h1>
+      <h1 class="text-success">Winner is {this.props.name} </h1>
+      <h1 class="text-info">{this.props.runner} Please try again :)</h1>
+      <h1 class="text-warning"> Won in {this.state.min } : {this.state.sec} secs </h1>
+      <h1 class="text-primary"> Total moves made: {this.state.move}</h1>
+      <h1><button class="btn btn-warning" onClick={this.restart}> Restart Game </button></h1>
+      </center>
+      </div>
     );
 
   }
+  restart(){
+    window.location.reload(false);
+  }
+
 }
