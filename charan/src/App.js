@@ -451,7 +451,7 @@ class Winner extends React.Component{
       <center>
       <h1 class="text-danger"><b><u>GAME OVER</u></b></h1>
       <h1>CONGRATULATIONS..!</h1>
-      <h1 class="text-success">Winner is {this.props.name} </h1>
+      <h1 class="text-success">{this.props.name} Won the game</h1>
       <h1 class="text-info">{this.props.runner} Please try again :)</h1>
       <h1 class="text-warning"> Won in {this.state.min } : {this.state.sec} secs </h1>
       <h1 class="text-primary"> Total moves made: {this.state.move}</h1>
