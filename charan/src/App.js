@@ -152,59 +152,59 @@ class Board extends React.Component {
         <center><h2>Player1: {this.state.P1} &emsp;Player2: {this.state.P2}</h2></center>
         <center><h2 class="text-danger bg-primary" id="disp">{this.state.P1}'s turn </h2></center>
         <center><table border="1">
-          <tr height="50">
-            <td width="50" id="0" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="1" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="2" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="3" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="4" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="5" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="6" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
+          <tr height="50" style={{borderRadius: 100}}>
+            <td width="50" id="0" onClick={this.col1} style={{borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="1" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="2" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="3" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="4" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="5" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="6" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
           </tr>
-          <tr height="50">
-            <td width="50" id="7" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="8" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="9" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="10" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="11" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="12" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="13" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
+          <tr height="50" style={{borderRadius: 100}}>
+            <td width="50" id="7" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="8" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="9" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="10" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="11" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="12" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="13" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
           </tr>
-          <tr height="50">
-            <td width="50" id="14" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="15" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="16" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="17" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="18" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="19" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="20" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
+          <tr height="50" style={{borderRadius: 100}}>
+            <td width="50" id="14" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="15" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="16" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="17" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="18" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="19" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="20" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
           </tr>
-          <tr height="50">
-            <td width="50" id="21" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="22" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="23" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="24" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="25" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="26" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="27" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
+          <tr height="50" style={{borderRadius: 100}}>
+            <td width="50" id="21" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="22" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="23" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="24" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="25" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="26" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="27" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
           </tr>
-          <tr height="50">
-            <td width="50" id="28" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="29" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="30" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="31" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="32" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="33" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="34" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
+          <tr height="50" style={{borderRadius: 100}}>
+            <td width="50" id="28" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="29" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="30" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="31" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="32" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="33" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="34" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
           </tr>
-          <tr height="50">
-            <td width="50" id="35" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="36" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="37" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="38" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="39" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="40" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
-            <td width="50" id="41" onClick={this.col1} style={{ backgroundColor: 'white' }}></td>
+          <tr height="50" style={{borderRadius: 100}}>
+            <td width="50" id="35" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="36" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="37" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="38" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="39" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="40" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
+            <td width="50" id="41" onClick={this.col1} style={{ borderRadius: 100, backgroundColor: 'white' }}></td>
           </tr>
         </table>
         </center>
